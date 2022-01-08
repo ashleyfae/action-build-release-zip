@@ -29,7 +29,7 @@ runs:
         mkdir build
                   mkdir ${{ github.event.repository.name }}
 
-   # Moves the vendor files into the release directory.
+    # Moves the vendor files into the release directory.
     - name: Move vendor files
       if: ${{ github.event.inputs.composer-install == 'true' }}
       shell: bash
