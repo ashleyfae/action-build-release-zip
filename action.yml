@@ -62,5 +62,3 @@ runs:
       uses: JasonEtco/upload-to-release@master
       with:
         args: build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip application/zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
