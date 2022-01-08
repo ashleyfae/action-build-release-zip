@@ -1,1 +1,17 @@
-# action-build-release-zip
+## Example Workflow
+
+```yaml
+name: Create Release Zip
+on:
+  # Triggers when a new release is published.
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ashleyfae/action-build-release-zip@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
