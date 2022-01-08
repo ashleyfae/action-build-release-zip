@@ -18,7 +18,7 @@ runs:
 
     # Runs "composer install".
     - name: Install dependencies
-      if: ${{ github.event.inputs.composer-install == 'true' }}
+      if: ${{ inputs.composer-install == 'true' }}
       shell: bash
       run: composer install --no-dev --optimize-autoloader
 
@@ -27,11 +27,11 @@ runs:
       shell: bash
       run: |
         mkdir build
-                  mkdir ${{ github.event.repository.name }}
+                 mkdir ${{ github.event.repository.name }}
 
     # Moves the vendor files into the release directory.
     - name: Move vendor files
-      if: ${{ github.event.inputs.composer-install == 'true' }}
+      if: ${{ inputs.composer-install == 'true' }}
       shell: bash
       run: mv vendor/ ${{ github.event.repository.name }}/
 
