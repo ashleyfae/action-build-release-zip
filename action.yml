@@ -3,7 +3,7 @@ description: 'Creates a zip file from your repo source and uploads it to the rel
 inputs:
   composer-install:
     description: 'Whether to install composer dependencies.'
-    required: false
+    required: true
     default: 'true'
 outputs:
   zip-path:
