@@ -9,6 +9,9 @@ outputs:
   zip-path:
     description: 'Path to the created zip file'
     value: ${{ steps.create-zip.outputs.zip-path }}
+  file-name:
+    description: 'Generated asset file name'
+    value: ${{ steps.create-zip.outputs.file-name }}
 runs:
   using: 'composite'
   steps:
@@ -42,6 +45,7 @@ runs:
       run: |
         git archive --prefix ${{ github.event.repository.name }}/ -o build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip HEAD
         echo "::set-output name=zip-path::${GITHUB_WORKSPACE}/build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip"
+        echo "::set-output name=file-name::${{ github.event.repository.name }}-${{ github.event.release.name }}.zip"
 
     # Manually add the vendor/ directory into the zip file.
     - name: Add vendor files
