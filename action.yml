@@ -12,6 +12,12 @@ outputs:
   file-name:
     description: 'Generated asset file name'
     value: ${{ steps.create-zip.outputs.file-name }}
+  asset-url:
+    description: 'URL to the newly created asset.'
+    value: ${{ steps.upload-asset.outputs.asset-url }}
+  asset-id:
+    description: 'ID of the newly created asset.'
+    value: ${{ steps.upload-asset.outputs.asset-id }}
 runs:
   using: 'composite'
   steps:
@@ -63,6 +69,7 @@ runs:
 
     # Attaches the zip file to the release.
     - name: Upload zip to release
+      id: upload-asset
       uses: ashleyfae/action-upload-release-asset@main
       with:
         file: build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip
