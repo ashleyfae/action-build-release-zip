@@ -63,6 +63,6 @@ runs:
 
     # Attaches the zip file to the release.
     - name: Upload zip to release
-      uses: JasonEtco/upload-to-release@master
+      uses: ashleyfae/action-upload-release-asset@main
       with:
-        args: build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip application/zip
+        file: build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip
