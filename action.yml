@@ -67,9 +67,8 @@ runs:
     # Manually add the vendor/ directory into the zip file.
     - name: Add vendor files
       if: ${{ inputs.composer-install == 'true' }}
-      uses: montudor/action-zip@v0.1.0
-      with:
-        args: zip -ur build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip ${{ github.event.repository.name }}/
+      shell: bash
+      run: zip -ur build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip ${{ github.event.repository.name }}/
 
     # Uploads the zip file to the action.
     - name: Upload artifact
