@@ -18,9 +18,6 @@ outputs:
   asset-id:
     description: 'ID of the newly created asset.'
     value: ${{ steps.upload-asset.outputs.asset-id }}
-  asset-browser-download-url:
-    description: 'Browser download URL for the asset.'
-    value: ${{ steps.upload-asset.outputs.browser-download-url }}
   release-id:
     description: 'ID of the release.'
     value: ${{ github.event.release.id }}
