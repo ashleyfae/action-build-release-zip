@@ -18,12 +18,23 @@ outputs:
   asset-id:
     description: 'ID of the newly created asset.'
     value: ${{ steps.upload-asset.outputs.asset-id }}
+  asset-browser-download-url:
+    description: 'Browser download URL for the asset.'
+    value: ${{ steps.upload-asset.outputs.browser-download-url }}
+  release-id:
+    description: 'ID of the release.'
+    value: ${{ github.event.release.id }}
+  release-tag:
+    description: 'Tag name of the release.'
+    value: ${{ github.event.release.tag_name }}
 runs:
   using: 'composite'
   steps:
     # Checks out the source code.
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.release.tag_name }}
 
     # Runs "composer install".
     - name: Install dependencies
@@ -50,8 +61,8 @@ runs:
       shell: bash
       run: |
         git archive --prefix ${{ github.event.repository.name }}/ -o build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip HEAD
-        echo "::set-output name=zip-path::${GITHUB_WORKSPACE}/build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip"
-        echo "::set-output name=file-name::${{ github.event.repository.name }}-${{ github.event.release.name }}.zip"
+        echo "zip-path=${GITHUB_WORKSPACE}/build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip" >> $GITHUB_OUTPUT
+        echo "file-name=${{ github.event.repository.name }}-${{ github.event.release.name }}.zip" >> $GITHUB_OUTPUT
 
     # Manually add the vendor/ directory into the zip file.
     - name: Add vendor files
@@ -62,7 +73,7 @@ runs:
 
     # Uploads the zip file to the action.
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ github.event.repository.name }}-${{ github.event.release.name }}
         path: build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip
