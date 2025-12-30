@@ -13,8 +13,11 @@ outputs:
     description: 'Generated asset file name'
     value: ${{ steps.create-zip.outputs.file-name }}
   asset-url:
-    description: 'URL to the newly created asset.'
+    description: 'API URL to GET the newly created asset.'
     value: ${{ steps.upload-asset.outputs.asset-url }}
+  asset-download-url:
+    description: 'Browser download URL for the asset.'
+    value: ${{ steps.upload-asset.outputs.browser-download-url }}
   asset-id:
     description: 'ID of the newly created asset.'
     value: ${{ steps.upload-asset.outputs.asset-id }}
