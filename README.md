@@ -1,3 +1,10 @@
+## Inputs
+
+| Input | Required | Default | Description |
+|---|---|---|---|
+| `composer-install` | No | `true` | Whether to install Composer dependencies. |
+| `directory-name` | No | Repository name | Name of the directory created inside the zip, and used as the base of the zip file name. |
+
 ## Example Workflow
 
 ```yaml
