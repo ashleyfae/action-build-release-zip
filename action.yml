@@ -5,6 +5,10 @@ inputs:
     description: 'Whether to install composer dependencies.'
     required: true
     default: 'true'
+  directory-name:
+    description: 'Name of the directory created inside the zip, and used as the base of the zip file name. Defaults to the repository name.'
+    required: false
+    default: ${{ github.event.repository.name }}
 outputs:
   zip-path:
     description: 'Path to the created zip file'
@@ -47,39 +51,39 @@ runs:
       shell: bash
       run: |
         mkdir build
-        mkdir ${{ github.event.repository.name }}
+        mkdir ${{ inputs.directory-name }}
 
     # Moves the vendor files into the release directory.
     - name: Move vendor files
       if: ${{ inputs.composer-install == 'true' }}
       shell: bash
-      run: mv vendor/ ${{ github.event.repository.name }}/
+      run: mv vendor/ ${{ inputs.directory-name }}/
 
     # Create the zip file. Note that this won't include vendor/, we have to add that next.
     - name: Create zip file
       id: create-zip
       shell: bash
       run: |
-        git archive --prefix ${{ github.event.repository.name }}/ -o build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip HEAD
-        echo "zip-path=${GITHUB_WORKSPACE}/build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip" >> $GITHUB_OUTPUT
-        echo "file-name=${{ github.event.repository.name }}-${{ github.event.release.name }}.zip" >> $GITHUB_OUTPUT
+        git archive --prefix ${{ inputs.directory-name }}/ -o build/${{ inputs.directory-name }}-${{ github.event.release.name }}.zip HEAD
+        echo "zip-path=${GITHUB_WORKSPACE}/build/${{ inputs.directory-name }}-${{ github.event.release.name }}.zip" >> $GITHUB_OUTPUT
+        echo "file-name=${{ inputs.directory-name }}-${{ github.event.release.name }}.zip" >> $GITHUB_OUTPUT
 
     # Manually add the vendor/ directory into the zip file.
     - name: Add vendor files
       if: ${{ inputs.composer-install == 'true' }}
       shell: bash
-      run: zip -ur build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip ${{ github.event.repository.name }}/
+      run: zip -ur build/${{ inputs.directory-name }}-${{ github.event.release.name }}.zip ${{ inputs.directory-name }}/
 
     # Uploads the zip file to the action.
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ github.event.repository.name }}-${{ github.event.release.name }}
-        path: build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip
+        name: ${{ inputs.directory-name }}-${{ github.event.release.name }}
+        path: build/${{ inputs.directory-name }}-${{ github.event.release.name }}.zip
 
     # Attaches the zip file to the release.
     - name: Upload zip to release
       id: upload-asset
       uses: ashleyfae/action-upload-release-asset@main
       with:
-        file: build/${{ github.event.repository.name }}-${{ github.event.release.name }}.zip
+        file: build/${{ inputs.directory-name }}-${{ github.event.release.name }}.zip
