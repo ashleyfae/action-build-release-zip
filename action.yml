@@ -36,7 +36,7 @@ runs:
   steps:
     # Checks out the source code.
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         ref: ${{ github.event.release.tag_name }}
 
@@ -76,7 +76,7 @@ runs:
 
     # Uploads the zip file to the action.
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: ${{ inputs.directory-name }}-${{ github.event.release.name }}
         path: build/${{ inputs.directory-name }}-${{ github.event.release.name }}.zip
