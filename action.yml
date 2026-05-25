@@ -91,3 +91,4 @@ runs:
       uses: ashleyfae/action-upload-release-asset@main
       with:
         file: build/${{ inputs.directory-name }}-${{ inputs.tag-name }}.zip
+        release-tag: ${{ inputs.tag-name }}
