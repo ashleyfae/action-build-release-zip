@@ -14,11 +14,13 @@ on:
   release:
     types: [published]
 
+# Required so the upload-release-asset step can attach the zip to the release.
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: ashleyfae/action-build-release-zip@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
